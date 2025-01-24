@@ -46,6 +46,7 @@ const updateSelectDisabled = (idOption) => {
     optionDisable.value.push(optionEnable.value[index]);
     optionEnable.value.splice(index, 1);
   }
+  updateData()
 }
 
 const updateSelectActive = (idOption) => {
@@ -54,16 +55,18 @@ const updateSelectActive = (idOption) => {
     optionEnable.value.push(optionDisable.value[index]);
     optionDisable.value.splice(index, 1);
   }
-  updateData(optionEnable)
+  updateData()
 }
 
-
-
-
-let { handleChange, debounce } = fieldMixin.setup(props, { emit });
-const updateData = (event) => {
-  debounce(handleChange, 50)(event);
+const updateData = () => {
+  const data = {
+    id: props.field.id,
+    value: optionEnable.value.map(option => option.id),
+  }
+  emit('update', data);
 };
+
+updateData()
 </script>
 
 <style scoped>
