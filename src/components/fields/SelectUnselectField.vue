@@ -1,28 +1,22 @@
 <template>
   <div>
-    <div>
-      Active
-      <select
-    :name="field.id"
-    :disabled="field.disabled ?? null"
-    multiple="true"
-    >
+    <div class="select">
+      Active Option
+      <select :name="field.id" :disabled="field.disabled ?? null" multiple="true" >
 
-  >
-    <option v-for="option in optionEnable" @click="updateSelectDisabled(option.id)" :key="option.value" :value="option.id">{{ option.label }}</option>
-  </select>
+        >
+        <option v-for="option in optionEnable" @click="updateSelectDisabled(option.id)" :key="option.value"
+          :value="option.id">{{ option.label }}</option>
+      </select>
     </div>
 
-  <div>
-    Disable Option
-    <select
-    :name="`${field.id}-2`"
-    :disabled="field.disabled ?? null"
-    multiple="true"
-  >
-    <option v-for="option in optionDisable" @click="updateSelectActive(option.id)" :key="option.value" :value="option.value">{{ option.label }}</option>
-  </select>
-  </div>
+    <div class="select">
+      Disable Option
+      <select :name="`${field.id}-2`" :disabled="field.disabled ?? null" multiple="true">
+        <option v-for="option in optionDisable" @click="updateSelectActive(option.id)" :key="option.value"
+          :value="option.value">{{ option.label }}</option>
+      </select>
+    </div>
   </div>
 
 </template>
@@ -32,14 +26,14 @@ import { ref } from 'vue';
 import fieldMixin from '../FieldMixin';
 const emit = defineEmits(['update']);
 const props = defineProps({
-    field: {
-        type: Object,
-        required: true,
-    },
-    modelValue: {
-        type: [String, Number, Boolean, Object, Array],
-        default: '',
-    },
+  field: {
+    type: Object,
+    required: true,
+  },
+  modelValue: {
+    type: [String, Number, Boolean, Object, Array],
+    default: '',
+  },
 });
 
 
@@ -60,8 +54,7 @@ const updateSelectActive = (idOption) => {
     optionEnable.value.push(optionDisable.value[index]);
     optionDisable.value.splice(index, 1);
   }
-  props.field.options = optionEnable
-  handleChange()
+  updateData(optionEnable)
 }
 
 
@@ -69,16 +62,22 @@ const updateSelectActive = (idOption) => {
 
 let { handleChange, debounce } = fieldMixin.setup(props, { emit });
 const updateData = (event) => {
-    debounce(handleChange, 50)(event);
+  debounce(handleChange, 50)(event);
 };
 </script>
 
 <style scoped>
 div {
   display: flex;
-
   gap: 40px;
   margin-bottom: 10px;
+  margin-top: 10px;
+}
+
+div div.select {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 }
 
 div select {
